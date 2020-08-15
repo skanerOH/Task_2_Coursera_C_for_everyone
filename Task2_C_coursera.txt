@@ -1,0 +1,60 @@
+//Created by Olexandr Hutarevych 15.08.2020
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list{ int val; struct list* next;} list;
+
+void FillListWithArrayOfValues(list* head, int* arr, int arrSize) //Fills list with values from array
+{
+    list* tempo;
+    
+    if (head==NULL) return;
+    
+    while (head -> next != NULL) //move head to tail
+    {
+        head = head -> next;
+    }
+    
+    for (int i=0; i<arrSize; ++i)
+    {
+        tempo = malloc(sizeof(list)); //creating new list element
+        tempo -> next = NULL;
+        tempo -> val = arr[i];
+        
+        head -> next = tempo; //adding it to list
+        head = tempo;
+    }
+}
+
+void PrintList(list* head) //prints list (20 elements per line)
+{
+    int counter=0; //used for counting elements printed
+    if (head != NULL)
+        head = head -> next; //moving head to first real element
+    while (head != NULL) //iterating through list
+    {
+        ++counter;
+        printf("%-2d ", head -> val);
+        head = head -> next;
+        if (counter%20 == 0) printf("\n");
+    }
+}
+
+int main()
+{
+    list* head; //poiner to first element of list
+    head = malloc(sizeof(list));
+    
+    int randomSet[100];
+    for (int i=0; i<100; ++i)
+    {
+        randomSet[i] = rand()%100; // random nomber from 0 to 99
+    }
+    
+    FillListWithArrayOfValues(head, randomSet, 100);
+    
+    PrintList(head);
+
+    return 0;
+}
